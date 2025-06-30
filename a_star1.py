@@ -1,27 +1,27 @@
-import heapq
 
-def a_star(graph,heuristics,start,goal):
+def a_star(graph, heuristics, start, goal):
     queue=[(heuristics[start],0,[start])]
     visited=set()
-    
     while queue:
-        f,g,path=heapq.heappop(queue)
+        queue.sort()
+        f,g,path=queue.pop(0)
         node=path[-1]
+        
         if node==goal:
             return path
-        if node in visited:
-            continue
-        visited.add(node)
         
+        if node not in visited:
+            visited.add(node)
+            
         for neighbour,cost in graph.get(node,[]):
             if neighbour not in visited:
                 new_g=g+cost
-                new_f=new_g+heuristics[neighbour]
+                f=new_g+heuristics[neighbour]
                 new_path=list(path)
                 new_path.append(neighbour)
-                heapq.heappush(queue,(new_f,new_g,new_path))
-                
+                queue.append((f,new_g,new_path))
     return None
+       
 
 graph = {
     'A': [('B', 1), ('C', 4)],
