@@ -1,25 +1,22 @@
-import heapq
-
-def bestfs(graph,heuristics,start,goal):
+def bestFS(graph,heuristic,start,goal):
     visited=set()
-    queue=[(heuristics[start],[start])]
-    
+    queue=[(heuristic[start],[start])]
     while queue:
-        h,path=heapq.heappop(queue)
+        queue.sort()
+        h,path=queue.pop(0)
         node=path[-1]
         
         if node==goal:
             return path
         
-        if node in visited:
-            continue
-        
+        if node not in visited:
+            visited.add(node)
+            
         for neighbour in graph.get(node,[]):
             if neighbour not in visited:
                 new_path=list(path)
                 new_path.append(neighbour)
-                heapq.heappush(queue,(heuristics[neighbour],new_path))
-                
+                queue.append((heuristic[neighbour],new_path))
     return None
 
 graph={
@@ -45,7 +42,7 @@ heuristics={
 start='A'
 goal ='G'
 
-path=bestfs(graph,heuristics,start,goal)
+path=bestFS(graph,heuristics,start,goal)
 if path:
     print(path)
 else:

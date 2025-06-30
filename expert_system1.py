@@ -1,15 +1,16 @@
 def get_yes_no(question):
     while True:
-        answer = input(question + " (yes/no): ").strip().lower()
-        if answer in ['yes', 'no']:
-            return answer == 'yes'
+        answer=input(question + "yes/no: ").strip().lower()
+        if answer in ['yes','no']:
+            return answer=='yes'
         print("Please answer with yes or no.")
-
+        
+        
+        
 def diagnose():
-    print(" Simple Medical Expert System (with confidence)")
-    print("---------------------------------------------")
-
-    # Ask symptoms
+    print("Medical Expert System ")
+    print("-------------------------")
+    
     fever = get_yes_no("Do you have a fever?")
     cough = get_yes_no("Do you have a cough?")
     sore_throat = get_yes_no("Do you have a sore throat?")
@@ -20,8 +21,8 @@ def diagnose():
     loss_smell = get_yes_no("Have you lost your sense of taste or smell?")
     sneezing = get_yes_no("Are you sneezing frequently?")
     itchy_eyes = get_yes_no("Do you have itchy or watery eyes?")
-
-    # Match counts (like confidence score)
+    
+     # Match counts (like confidence score)
     flu_score = sum([fever, cough, sore_throat, body_ache, fatigue])
     covid_score = flu_score + short_breath + loss_smell
     cold_score = sum([cough, sore_throat, runny_nose])
@@ -48,5 +49,21 @@ def diagnose():
     else:
         print("\n🩺 Diagnosis: Most likely Allergy")
 
-# Run it
+    
+    if fever and cough and sore_throat and body_ache and fatigue:
+        if short_breath and loss_smell:
+             print("\n Diagnosis: You may have COVID-19.")
+        else:
+            print("\n Diagnosis: You may have the Flu.")
+    elif cough and runny_nose and sore_throat:
+        print("\n Diagnosis: You may have the Common Cold.")
+        
+    elif sneezing and itchy_eyes and runny_nose and not fever:
+         print("\n Diagnosis: You may have Allergy.")
+        
+    else:
+        print("\n Diagnosis: Symptoms do not match a known condition.")
+        print("Please consult a healthcare professional.")
+
 diagnose()
+    
